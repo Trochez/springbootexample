@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      </head>
+      <body>
+
+      <div class="jumbotron text-center">
+        <div style="float: left;position: absolute">
+            <img src="driver.png" height="50" width="50"/>
+            <br>
+            <a href="./"><img src="home.png" height="50" width="50"/></a>
+        </div>
+            
+        <h1>Conductores</h1>
+        <p>Seleccione un conductor:</p> 
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Conductor
+        </button>
+        <div class="dropdown-menu" id = "options">
+
+        </div>
+        <div style = "margin-top: 2%">
+            <button type="button" class="btn btn-success" onclick = "guardar()">Guardar</button>
+            <button type="button" class="btn btn-primary" onclick = "actualizar()">Actualizar</button>
+            <button type="button" class="btn btn-danger" onclick = "eliminar()">Eliminar</button>
+        </div>
+      </div>
+
+      <div class="container" >
+        <div class="row">
+          <div class="col-sm-12">
+              <div class="form-group">
+                <label for="usr">Tipo Documento</label>
+                <input type="text" class="form-control" id="tipo_documento" name="tipo_doocumento" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Numero documento</label>
+                <input type="text" class="form-control" id="numero_documento" name="numero_doocumento" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Direccion</label>
+                <input type="text" class="form-control" id="direccion" name="direccion" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Ciudad</label>
+                <input type="text" class="form-control" id="ciudad" name="ciudad" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Departamento</label>
+                <input type="text" class="form-control" id="departamento" name="departamento" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Pais</label>
+                <input type="text" class="form-control" id="pais" name="pais" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Telefono</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">ID Empresa asociada</label>
+                <input type="text" class="form-control" id="id_empresa" name="id_empresa" onchange="setValue(this)">
+              </div>
+           
+          </div>
+          
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    var data ={};
+    var id = -1;
+    
+    function setValue(input){
+        
+        data[input.id]=input.value;
+        
+        console.log("-------------- "+JSON.stringify(data));
+    
+    }
+    
+    function guardar(){
+    
+        var jsonsend = JSON.stringify(data);
+    
+        console.log("------------ guardar conductor");
+        
+        $.ajax({
+            url: 'http://localhost:8080/conductor/addConductor',    //Your api url
+            type: 'POST',   //type is any HTTP method
+            dataType : "json",
+            success: function () {
+                alert("conductor guardada correctamente");
+            },
+            error: function(xhr, status, error) {
+                console.log(data);
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        })
+        ;
+        
+    }
+    
+    function actualizar(){
+
+        var jsonsend = JSON.stringify(data);
+    
+        console.log("------------ actualizar conductor id "+id);
+        
+        $.ajax({
+            url: 'http://localhost:8080/conductor/putConductor/'+id,    //Your api url
+            type: 'PUT',   //type is any HTTP method
+            dataType : "json",
+            contentType: "application/json; charset=utf-8",
+            data: jsonsend
+            ,      //Data as js object
+            success: function () {
+                alert("emprea actualizada correctamente");
+            },
+            error: function(xhr, status, error) {
+                console.log(data);
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        })
+        ;
+    }
+    
+    function eliminar(){
+
+        $.ajax({
+            url: 'http://localhost:8080/conductor/deleteConductor/'+id,    //Your api url
+            type: 'DELETE',   //type is any HTTP method
+                  //Data as js object
+            success: function () {
+                alert("conductor eliminada correctamente");
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        })
+        ;
+    }
+    
+    function load(){
+
+      var divoptions = document.getElementById("options");
+
+      $.getJSON('http://localhost:8080/conductor/getConductores', function(datai) {
+          console.log("-------------------- "+datai);
+
+          for(var i=0;i<datai.length;i++){
+
+            var a = document.createElement('a');
+            a.classList.add('dropdown-item');
+            a.text=datai[i]["nombre"];
+            a.id = datai[i]["id"];
+            a.onclick = function selected(){
+
+              console.log("------------------ selected "+this.id);
+
+              $.getJSON('http://localhost:8080/conductor/getConductor/'+this.id, function(datas) {
+                  console.log("-------------------- "+datas);
+
+                  data = datas;
+
+                  for(var k in datas){
+
+                    if(k=="id")id=datas[k];
+
+                    else{
+
+                      console.log("------key "+k);
+
+                      if(k!="params")document.getElementById(k).value = datas[k];
+
+                    }
+
+
+                  }
+
+                  delete data["id"];
+                  delete data["params"];
+              });
+
+            };
+            divoptions.appendChild(a);
+
+          }
+      });
+    }
+
+
+    load();
+    
+</script>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Home</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+         <div class="jumbotron text-center">
+  <h1>DataTools Test</h1>
+  <p>Interfaz de prueba de aplicación de servicios backend java spring</p>
+</div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+            
+            <h2 style = "text-align:center">Empresa</h2>
+            
+            <div class="card" style = "text-align:center">
+                <div class="card-body" ><img src="empresa.png"height="100" width="100"/></div>
+                <button type="button" class="btn btn-info" onclick="goEmpresa()">Ir</button>
+            </div>
+          
+          
+        </div>
+        <div class="col-sm-4">
+           <h2 style = "text-align:center">Conductor</h2>
+            
+            <div class="card" style = "text-align:center">
+                <div class="card-body" ><img src="driver.png" height="100" width="100"/></div>
+                <button type="button" class="btn btn-info" onclick="goConductor()">Ir</button>
+            </div>
+        </div>
+        <div class="col-sm-4">
+           <h2 style = "text-align:center">Vehiculo</h2>
+            
+            <div class="card" style = "text-align:center">
+                <div class="card-body" ><img src="vehicle.png" height="100" width="100"/></div>
+                <button type="button" class="btn btn-info" onclick="goVehiculo()">Ir</button>
+            </div>
+        </div>
+      </div>
+    </div> 
+    </body>
+</html>
+<script type="text/javascript">
+    function goEmpresa(){
+        location.href = "empresa.html";
+    }
+    
+    function goConductor(){
+        location.href = "conductor.html";
+    }
+    
+    function goVehiculo(){
+        location.href = "vehiculo.html";
+    }
+    
+</script>

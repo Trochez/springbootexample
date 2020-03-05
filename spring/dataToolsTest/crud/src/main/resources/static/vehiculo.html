@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Vehiculo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      </head>
+      <body>
+
+      <div class="jumbotron text-center">
+        <div style="float: left;position: absolute">
+            <img src="vehicle.png" height="50" width="50"/>
+            <br>
+            <a href="./"><img src="home.png" height="50" width="50"/></a>
+        </div>
+            
+        <h1>Vehiculos</h1>
+        <p>Seleccione un vehiculo:</p> 
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Vehiculos
+        </button>
+        <div class="dropdown-menu" id = "options">
+
+        </div>
+        <div style = "margin-top: 2%">
+            <button type="button" class="btn btn-success" onclick = "guardar()">Guardar</button>
+            <button type="button" class="btn btn-primary" onclick = "actualizar()">Actualizar</button>
+            <button type="button" class="btn btn-danger" onclick = "eliminar()">Eliminar</button>
+        </div>
+      </div>
+
+      <div class="container" >
+        <div class="row">
+          <div class="col-sm-6">
+              <div class="form-group">
+                <label for="usr">Placa</label>
+                <input type="text" class="form-control" id="placa" name="placa" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Motor</label>
+                <input type="text" class="form-control" id="motor" name="motor" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Chasis</label>
+                <input type="text" class="form-control" id="chasis" name="chasis" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Modelo</label>
+                <input type="text" class="form-control" id="modelo" name="modelo" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Fecha de matricula</label>
+                <input type="text" class="form-control" id="fecha_matricula" name="fecha_matricula" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Numero pasajeros sentados</label>
+                <input type="text" class="form-control" id="pasajeros_sentados" name="pasajeros_sentados" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Numero pasajeros parados</label>
+                <input type="text" class="form-control" id="pasajeros_parados" name="pasajeros_parados" onchange="setValue(this)">
+              </div>
+              
+           
+          </div>
+          <div class="col-sm-6">
+            
+              <div class="form-group">
+                <label for="usr">Peso Bruto</label>
+                <input type="text" class="form-control" id="peso_bruto" name="peso_bruto" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Numero puertas</label>
+                <input type="text" class="form-control" id="puertas" name="puertas"onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">marca</label>
+                <input type="text" class="form-control" id="marca" name="marca" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">linea</label>
+                <input type="text" class="form-control" id="linea" name="linea" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">ID Empresa asociada</label>
+                <input type="text" class="form-control" id="id_empresa" name="id_empresa" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Afiliado</label>
+                <input type="text" class="form-control" id="afiliado" name="afiliado" onchange="setValue(this)">
+              </div>
+              <div class="form-group">
+                <label for="usr">Peso seco</label>
+                <input type="text" class="form-control" id="peso_seco" name="peso_seco" onchange="setValue(this)">
+              </div>
+              
+          </div>
+            
+             
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    var data ={};
+    var id = -1;
+    
+    function setValue(input){
+        
+        data[input.id]=input.value;
+        
+        console.log("-------------- "+JSON.stringify(data));
+    
+    }
+    
+    function guardar(){
+    
+        var jsonsend = JSON.stringify(data);
+    
+        console.log("------------ guardar conductor");
+        
+        $.ajax({
+            url: 'http://localhost:8080/vehiculo/addVehiculo',    //Your api url
+            type: 'POST',   //type is any HTTP method
+            dataType : "json",
+            contentType: "application/json; charset=utf-8",
+            data: jsonsend
+            ,      //Data as js object
+            success: function () {
+                alert("conductor guardada correctamente");
+            },
+            error: function(xhr, status, error) {
+                console.log(data);
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        })
+        ;
+        
+    }
+    
+    function actualizar(){
+
+        var jsonsend = JSON.stringify(data);
+    
+        console.log("------------ actualizar conductor id "+id);
+        
+        $.ajax({
+            url: 'http://localhost:8080/vehiculo/putVehiculo/'+id,    //Your api url
+            type: 'PUT',   //type is any HTTP method
+            dataType : "json",
+            contentType: "application/json; charset=utf-8",
+            data: jsonsend
+            ,      //Data as js object
+            success: function () {
+                alert("conductor actualizada correctamente");
+            },
+            error: function(xhr, status, error) {
+                console.log(data);
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        })
+        ;
+    }
+    
+    function eliminar(){
+
+        $.ajax({
+            url: 'http://localhost:8080/vehiculo/deleteVehiculo/'+id,    //Your api url
+            type: 'DELETE',   //type is any HTTP method
+                  //Data as js object
+            success: function () {
+                alert("vehiculo eliminada correctamente");
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        })
+        ;
+    }
+    
+    function load(){
+
+      var divoptions = document.getElementById("options");
+
+      $.getJSON('http://localhost:8080/vehiculo/getVehiculos', function(datai) {
+          console.log("-------------------- "+datai);
+
+          for(var i=0;i<datai.length;i++){
+
+            var a = document.createElement('a');
+            a.classList.add('dropdown-item');
+            a.text=datai[i]["placa"];
+            a.id = datai[i]["id"];
+            a.onclick = function selected(){
+
+              console.log("------------------ selected "+this.id);
+
+              $.getJSON('http://localhost:8080/vehiculo/getVehiculo/'+this.id, function(datas) {
+                  console.log("-------------------- "+datas);
+
+                  data = datas;
+
+                  for(var k in datas){
+
+                    if(k=="id")id=datas[k];
+
+                    else{
+
+                      console.log("------key "+k);
+
+                      if(k!="params")document.getElementById(k).value = datas[k];
+
+                    }
+
+
+                  }
+
+                  delete data["id"];
+                  delete data["params"];
+              });
+
+            };
+            divoptions.appendChild(a);
+
+          }
+      });
+    }
+
+
+    load();
+    
+</script>
